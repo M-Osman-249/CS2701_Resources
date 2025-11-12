@@ -9,42 +9,57 @@
     <body>
         <header></header>
         <nav>
-            <!-- ToDo: An unordered list to represent the menu, 
+            <!-- ToDo: An unordered list to represent the menu,
                        each list item should correspond to the menu items (Home, Register, Login, Help)
                        The css class of the menu is "navlist"
                        Check lecture slides about lists, an example of a more basic menu, and CSS class selector-->
             <ul class="navlist">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#register">Register</a></li>
+                <li><a href="#login">Login</a></li>
+                <li><a href="#help">Help</a></li>
             </ul>
          </nav>
         <main>
             <!-- Check Week 4 Lecture to learn about HTML5 semantic elements-->
             <aside>
+            <!-- Left Sidebar -->
+             <form class="search">
+                <input type="text" id="searchinput" name="searchinput" placeholder="search">
+           
+             </form>
             </aside>
             <section>
-                <form class="center" novalidate>
-                <!-- ToDo: Implement the form containing 
-                           Name - type text
-                           email- type text
-                           password - type text
-                           Terms of Service - type checkbox
-                           Register - button
-                           Learn more - link
-                           Check lecture slides and the links on the slides to learn about forms
-                           and how to create a button that would react to a click Event
-                        -->
-                    <!-- Example given for user type checkboxes-->
-                    
-                    <input type="checkbox" id="buyer" name="buyer" value="buyer">
-                    <label for="buyer">I want to buy produce directly from allotment owners.</label><br>
-                    <input type="checkbox" id="seller" name="seller" value="seller">
-                    <label for="seller">I want to sell produce from my allotment.</label><br><br>
+                <form class="center" onsubmit = "return validateForm()" novalidate>
+                 <label for="name"> Name:</label><br>
+                 <input type="text"  id="name" name="name" required ><br><br>
 
+                 <label for="email"> Email:</label><br>
+                 <input type="text" id="email" name="email" required><br><br>
+
+                 <label for="password"> Password:</label><br>
+                 <input type="password" id="password" name="password" required><br><br>
+
+                 <label for="re-type password"> Re-type password:</label><br>
+                 <input type="password" id="retypepassword" name="re-type password" required><br><br>
+                 
+                  <input type="checkbox" id="buyer" name="buyer" value="buyer">
+                  <label for="buyer">I want to buy produce directly from allotment owners.</label><br>
+                  <input type="checkbox" id="seller" name="seller" value="seller">
+                  <label for="seller">I want to sell produce from my allotment.</label><br><br>
+
+                  <input type="checkbox" id="termsagreement" name="termsagreement" value="termsagreement">
+                  <label for="termsagreement">I agree to the <a href="url">Terms of Use</a> and <a href="url">privacy policy</a>.</label><br><br>
+                 
                     <br><br>
+                    <input type="submit" value="Register"> <a href="ur13">Learn more</a>
                 </form>
                 <div class="center" id="hiddenSection">
                     <p id="hiddenParagraph"></p>
                 </div>
             </section>
         </main>
+        <script src = "CS2701-Week5-Registration.js">   
+        </script>
     </body>
 </html>
