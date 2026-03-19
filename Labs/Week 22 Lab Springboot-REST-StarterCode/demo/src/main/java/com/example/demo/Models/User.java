@@ -2,129 +2,137 @@ package com.example.demo.Models;
 
 import java.io.Serializable;
 import java.util.Date;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.example.demo.Models.UserType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-//Let's create a simple User class
-@Entity
-@Table(name = "Users")
-@EntityListeners(AuditingEntityListener.class)
+@Entity // class maps to a database
+@Table(name = "users")
+@EntityListeners(AuditingEntityListener.class) // works with @CreatedDate and @Last ModificationDate
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	
-	@NotBlank
-	String name;
-	
-	@NotBlank
-	@Column(unique=true)
-	String email;
-	
-	@NotBlank
-	String password;
-	
-	@Enumerated(EnumType.STRING) // Stores the enum as a string in the database
-	@Column(nullable = false)
-	UserType userType;
-	
-	@Column(nullable = false, updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
-	private Date createdAt;
+    @Column(name = "user_id")
+    private Integer userId;
 
-	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@LastModifiedDate
-	private Date updatedAt;
-	
-	
-	 public User() {
-			super();
-			// Auto-generated constructor stub
-	}
-		
-	 
-	 public User(String name, String email, String password, UserType userType) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.userType = userType;
-	}
-	
-	
-	public Long getId() {
-		return id;
-	}
+    @NotBlank
+    @Email
+    @Column(unique = true, nullable = false, columnDefinition = "VARCHAR(255)")
+    private String email;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotBlank
+    @Column(name = "password_hash", nullable = false, columnDefinition = "TEXT")
+    private String passwordHash;
 
-	public String getEmail() {
-		return email;
-	}
+    @Column(name = "is_verified", nullable = false) // set to default false
+    private Boolean isVerified = false;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
 
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
 
-	public String getName() {
-		return name;
-	}
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
+    private Date updatedAt;
 
+    @Column(name = "last_login_at")
+    private Date lastLoginAt;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public User() {
+        super();
+    }
 
+    public User(String email, String passwordHash, Boolean isVerified, Boolean isActive) {
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.isVerified = isVerified;
+        this.isActive = isActive;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public Integer getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public UserType getUserType() {
-		return userType;
-	}
+    public String getPasswordHash() {
+        return passwordHash;
+    }
 
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
 
-	public void setUserType(UserType userType) {
-		this.userType = userType;
-	}
+    public Boolean getIsVerified() {
+        return isVerified;
+    }
 
+    public void setIsVerified(Boolean isVerified) {
+        this.isVerified = isVerified;
+    }
 
+    public Boolean getIsActive() {
+        return isActive;
+    }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", userType="
-				+ userType + "]";
-	}
-	
-	
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Date getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public void setLastLoginAt(Date lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User [userId=" + userId + ", email=" + email + ", isVerified=" + isVerified
+                + ", isActive=" + isActive + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt + ", lastLoginAt=" + lastLoginAt + "]";
+    }
 }

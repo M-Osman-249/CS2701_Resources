@@ -1,5 +1,6 @@
 package com.example.demo.DTO;
 
+// handles the incoming data from the client, without exposing the user model
 import com.example.demo.Models.UserType;
 
 public class UserPostDTO {
@@ -7,15 +8,16 @@ public class UserPostDTO {
 	String email;
 	String password;
 	UserType userType;
-	
-	public UserPostDTO(String name, String email, String password, Boolean buyer, Boolean seller) {
+
+	public UserPostDTO(String name, String email, String password, Boolean user, Boolean admin) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.userType = convertType(buyer,seller);
-	}
-	
+		this.userType = convertType(user, admin);
+	} // fields that clients need to send
+
+	// Getters and Setters to retrieve the values of the fields and set/update them
 	public String getName() {
 		return name;
 	}
@@ -31,7 +33,6 @@ public class UserPostDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	public UserType getUserType() {
 		return userType;
@@ -49,18 +50,19 @@ public class UserPostDTO {
 		this.password = password;
 	}
 
-	public UserType convertType(Boolean buyer, Boolean seller) {
-		if(buyer==false && seller==false)
+	public UserType convertType(Boolean user, Boolean admin) {// converts boolean values into an enum value
+		boolean isUser = Boolean.TRUE.equals(user);
+		boolean isAdmin = Boolean.TRUE.equals(admin);
+
+		if (!isUser && !isAdmin)
 			return UserType.NONE;
-		
-		if(buyer==true && seller==false)
-			return UserType.BUYER;
-		
-		if(buyer == false && seller== true)
-			return UserType.SELLER;
-	
+
+		if (isUser && !isAdmin)
+			return UserType.USER;
+
+		if (!isUser)
+			return UserType.ADMIN;
+
 		return UserType.BOTH;
-		
-		
-	}
+	} // this keeps the user model seperate from what the client sends or controls
 }
